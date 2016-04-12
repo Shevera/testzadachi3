@@ -49,7 +49,7 @@ function insertNewPost($userName, $email, $text, $homepage, $user_ip, $user_brow
 
 
 function getPostFromDb(){
-
+    include_once 'database/getPostFromDb.php';
 }
 
 //Гостевая книга предоставляет возможность пользователям сайта оставлять сообщения на сайте.
