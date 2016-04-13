@@ -1,6 +1,5 @@
 <?php
 
-include_once "DB.php";
 include_once "workDB.php";
 
     $json = '{"userName":"Andre",

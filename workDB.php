@@ -22,11 +22,28 @@ function checkPostParams(array $postData){
     $text= trim(htmlspecialchars(mysql_real_escape_string($text)));
     $homepage= trim(htmlspecialchars(mysql_real_escape_string($homepage)));
 
-    //проверяем капчу
-       if(checkCaptcha($captcha)){
-           insertNewPost($userName, $email, $text, $homepage, $user_ip, $user_browser, $created_data);
-    }
 
+    //Создаем массив с значениями переменных
+    $result = [
+                'username'  => $userName,
+                'email'     => $email,
+                'text'      => $text,
+                'homepage'  =>$homepage,
+                'user_ip'   => $user_ip,
+                'user_browser'=>$user_browser,
+                'created_data'=>$created_data
+              ];
+
+    //проверяем капчу и возвращаем массив с данными
+       if(checkCaptcha($captcha)){
+           $result = ['message' => 'all correct in check function',
+                       'error' => true ];
+           return $result;
+    }else{
+           $result = ['message' => 'error in check function',
+                        'error' => false ];
+           return $result;
+       }
 
 }
 
@@ -40,17 +57,57 @@ function checkCaptcha($captcha){
     return false;
 }
 
-function insertNewPost($userName, $email, $text, $homepage, $user_ip, $user_browser, $created_data){
+function connect_db(){
+    $mysqli = new mysqli('localhost', 'root', '' , 'testzad3');
 
-    include_once 'database/insertNewPost.php';
-
-   }
-
-
-
-function getPostFromDb(){
-    include_once 'database/getPostFromDb.php';
+    if($mysqli->connect_error){
+        die('Connect Error: '.$mysqli->connect_error);
+    }
+    return $mysqli;
 }
+
+function select_post(){
+    $mysqli= connect_db();
+    $sql = "SELECT * FROM post";
+    if($res = $mysqli->query($sql)){
+        if($res->num_rows > 0){
+            $row = $res->fetch_all(MYSQLI_ASSOC);
+        }
+    }else{
+        echo 'Запрос не прошел';
+    }
+    return $row;
+}
+
+function insert_post(array $result){
+
+    if($result[error]){
+        $userName = $result[userName];
+        $email =    $result[email];
+        $text =     $result[text];
+        $homepage = $result[homepage];
+        $user_ip =  $result[user_ip];
+        $user_browser = $result[user_browser];
+        $created_data = $result[created_data];
+
+    }else{
+        return false;
+    }
+
+    $mysqli= connect_db();
+    $sql = "INSERT INTO post( 'id', 'userName',     'email',    'text',   'homepage',     'user_ip',  'user_browser',     'created_data')
+                      VALUES (null, '{$userName}', '{$email}', '{$text}', '{$homepage}', '{$user_ip}', '{$user_browser}', '{$created_data}')";
+    if ($mysqli->query($sql)) {
+        echo "New record created successfully";
+    } else {
+        echo "Error: " . $sql . "<br>" . mysqli_error($mysqli);
+    }
+
+}
+
+
+
+
 
 //Гостевая книга предоставляет возможность пользователям сайта оставлять сообщения на сайте.
 // Все данные введенные пользователем сохраняются в БД MySQL,
