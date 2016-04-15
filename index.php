@@ -10,7 +10,10 @@ include_once "workDB.php";
 
 $json_decode = json_decode($json);
 
-echo $json_decode->userName;
+//get_number_rows();
+var_dump(get_content('email','ASC'));
+
+//echo $json_decode->userName;
 
 
 //print_r($json_decode);
