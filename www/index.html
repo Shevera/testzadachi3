@@ -14,29 +14,29 @@
         </li>
         <li>
             <label for="name">Name:</label>
-            <input type="text"  placeholder="Vasya Terkin" name="name" />
+            <input id="name" type="text"  placeholder="Vasya Terkin" name="name" />
         </li>
         <li>
             <label for="email">Email:</label>
-            <input type="email" name="email" placeholder="vasya_terkin@example.com"/>
+            <input id="email" type="email" name="email" placeholder="vasya_terkin@example.com"/>
             <span class="form_hint">Proper format "name@something.com"</span>
         </li>
         <li>
-            <label for="file">File Load:</label>
+            <label for="myFile">File Load:</label>
             <input id="myFile" type="file" onchange="checkSize()" onclick="checkFormat()"/>
             <p id="sizeId"></p>
         </li>
         <li>
             <label for="message">Message:</label>
-            <textarea name="message" class="message" cols="40" rows="6"></textarea>
+            <textarea id="message" name="message" class="message" cols="40" rows="6"></textarea>
         </li>
         <li>
         	<label for="txtCaptcha">Captcha</label>
             <input type="text" id="txtCaptcha"/>
-        <input type="button" id="btnrefresh" value="Refresh" />
-        <label for="txtCaptcha">Resolve captcha</label>
-        <input type="text" id="txtInput"  /> 
-        <input id="button1" type="button" value="Check" />   
+            <input type="button" id="btnrefresh" value="Refresh" />
+            <label for="txtInput">Resolve captcha</label>
+            <input type="text" id="txtInput"  />
+            <input id="button1" type="button" value="Check" />
         </li>
         <li>
         	<button class="submit" type="submit" onsubmit="sendData()">Submit Form</button>
