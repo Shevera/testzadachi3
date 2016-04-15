@@ -120,6 +120,7 @@ function get_number_rows(){
 function get_content($tableColumn, $sort){
     //к-ство записей на странице
     $per_page=1;
+
     //получаем номер страницы
     $page = isset($_GET['page']) ? ($_GET['page']-1) : 0;
     //вичисляем первый оператор для LIMIT
@@ -134,19 +135,27 @@ function get_content($tableColumn, $sort){
         //определяем количество записей в таблице всего
         $total_rows = get_number_rows();
 
-    echo "количество строк которые возвращаются {$total_rows}" ;
+
         //рассчитаем сколько всего получается страниц
         $num_pages = ceil($total_rows/$per_page);
-    echo "сколько всего получается страниц {$num_pages}" ;
+
 
         if($total_rows){
             $row = $res->fetch_all(MYSQLI_ASSOC);
         }
 
+        // дальше выводим ссылки на страницы:
+
+
 
        // echo 'Запрос не прошел';
 
-    return $row;
+    return [
+        'row' => $row,
+        'per_page'=> $per_page,
+        'total_rows'=>$total_rows,
+        'num_pages'=>$num_pages
+        ];
 }
 
 
