@@ -119,7 +119,7 @@ function get_number_rows(){
 //ASC DESC
 function get_content($tableColumn, $sort){
     //к-ство записей на странице
-    $per_page=1;
+    $per_page=3;
 
     //получаем номер страницы
     $page = isset($_GET['page']) ? ($_GET['page']-1) : 0;
@@ -154,7 +154,8 @@ function get_content($tableColumn, $sort){
         'row' => $row,
         'per_page'=> $per_page,
         'total_rows'=>$total_rows,
-        'num_pages'=>$num_pages
+        'num_pages'=>$num_pages,
+        'page'=>$page
         ];
 }
 
