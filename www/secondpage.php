@@ -57,7 +57,9 @@ for($i=1;$i<=$num_pages;$i++){
     }
 }
 ?>
-
+<br>
+<hr>
+<a href="index.html"><button type="button" class="btn" />Main page</button></a>
 
 </body>
 </html>
