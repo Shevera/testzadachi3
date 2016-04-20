@@ -40,10 +40,9 @@ function(event){ - функція приймає параметр - об*єкт 
         var obj = {
             name:formData.get('name'),
             email:formData.get('email'),
-            message:formData.get('mesaage'),
+            message:formData.get('message'),
             file:formData.get('file')
         };
-        
    		request.send(JSON.stringify(formData));
 
  	}
