@@ -4,12 +4,11 @@
 	<meta charset="UTF-8">
 	<title>Guest Book</title>
 	<link rel="stylesheet" type="text/css" href="index.css">
+    <script src="jquery.js"></script>
 	<script src="index.js"  type="text/javascript"></script>
-    <script src="jquery.js"  type="text/javascript"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 </head>
 <body>
-	<form class="contact_form" action="../index.php" method="post"
+	<form class="contact_form" action="#" method="post"
           name="contact_form" enctype="multipart/form-data" id="myForm">
     <ul>
         <li>
@@ -30,30 +29,40 @@
         </li>
         <li>
             <label for="myFile">File Load:</label>
-            <input id="myFile" name="myFile" type="file" onchange="return checkSize()" onclick="checkFormat()"/>
-            <p class="toFile">Available format: txt, jpeg, png, gif.</p>
+            <input id="myFile" type="file" onchange="return checkSize()" onclick="checkFormat()"/>
             <p id="sizeId"></p>
             <p id="forOutputfile"></p>
             <p id="forOutputfileSucces"></p>
-
         </li>
         <li>
-            <label for="message">Message:</label>
-            <textarea id="message" name="message" class="message" cols="40" rows="6" required></textarea>
+            <label for="message"></label>
+            <textarea id="message" name="message" rows="2" cols="2" maxlength="50" >f</textarea>
+            <p id="tags">[&nbsp;<span class="intLink" onclick="addTags('&lt;strong&gt;','&lt;\/strong&gt;');">
+                <strong>Bold</strong></span> | <span class="intLink" onclick="addTags('&lt;em&gt;','&lt;\/em&gt;');">
+                <em>Italic</em></span> | <span class="intLink" onclick="var newURL=prompt('Enter the full URL for the link');
+                if(newURL){addTags('&lt;a href=\u0022'+newURL+'\u0022&gt;','&lt;\/a&gt;');}
+                else{document.getElementById('message').focus();}">URL</span> |
+                <span class="intLink" onclick="addTags('\n&lt;code&gt;\n','\n&lt;\/code&gt;\n');">code</span> |
+                <span class="intLink" onclick="addTags(' :-)');">smile</span> ]</p>
+            <!--<button id="b"  class="btn12" type="button">B</button>
+            <button id="i"  class="btn12" type="button">I</button>
+            <button id="u" class="btn12" type="button" >U</button>-->
+            <button id="p" class="btn12" type="button" onclick="view()" >Preview</button>
+            <button id="c" class="btn12" type="button" onclick="exit()">Close</button>
+            <div id="view_text">
+            </div>
             <p id="errorMessage"></p>
         </li>
         <li>
         	<label for="txtCaptcha">Captcha</label>
-            <input type="text" id="txtCaptcha"/>
-            <button type="submit" class="submit" />Refresh</button>
+            <input type="text" id="txtCaptcha" required/>
+            <button type="submit" class="submit" onclick="refreshCaptcha()"/>Refresh</button>
             <label for="txtInput">Resolve captcha</label>
-            <input type="text" id="txtInput"  />
-            <button type="button" class="submit" />Resolve</button>
+            <input type="text" id="txtInput"  required/>
         </li>
         <li>
-        	<button class="submit" type="submit" onsubmit="sendData()">Submit Form</button>
+        	<button class="submit" type="submit" onsubmit="sendData()" onclick="resolveCaptcha()">Submit Form</button>
             <a href="secondpage.php"><button type="button" class="btn" />Second page</button></a>
-
         </li>
     </ul>
 </form>
