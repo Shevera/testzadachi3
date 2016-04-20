@@ -42,6 +42,7 @@ function(event){ - функція приймає параметр - об*єкт 
             file:formData.append('the_file', file)
         };
 
+        alert(JSON.stringify(obj));
    		request.send(JSON.stringify(obj));
 
  	}
@@ -293,7 +294,9 @@ function  refreshCaptcha() {
 function resolveCaptcha(){
     var str = document.getElementById('txtCaptcha').value;
     var str1 = document.getElementById('txtInput').value;
-    if(str == str1){
+    if(str1 === ""){
+        alert('Refresh captcha');
+    }else if(str == str1){
         alert('You are human');
     }else{
         alert('You are Robot');
