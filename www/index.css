@@ -12,7 +12,6 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
     list-style-type:none;
 	list-style-position:outside;
 	margin-left:250px;
-	padding:0px;
 }
 .contact_form li{
 	padding:12px; 
@@ -115,6 +114,41 @@ body {font: 14px/21px "Lucida Sans", "Lucida Grande", "Lucida Sans Unicode", san
 	margin-left: 160px;
 	color: green;
 	margin-top: -15px;
+}
+#message {
+    height: 70px;
+}
+
+#tags{
+    margin-left: 160px;
+    margin-top: 1px;
+    color:darkslategray;
+}
+input.btn1{
+    width: 10px;
+    height: 20px;
+}
+button #btn12{
+    margin-top: 8px;
+}
+ #i{
+  margin-left: -2px;
+}
+#u{
+    margin-left: -2px;
+}
+#p{
+    margin-left: 155px;
+
+}
+#c{
+    margin-left: -2px;
+}
+#view_text{
+ margin-left: 160px;
+    width: 600px;
+    height: 30px;
+    margin-top: 5px;
 }
 button.btn{
 	background-color: orangered;

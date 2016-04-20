@@ -8,27 +8,26 @@ var FD = new FormData(form)- об*єкт для форми, в якості па
 кодує дані для сервера.
 function(event){ - функція приймає параметр - об*єкт події
 */
+ window.addEventListener("load", function(){
 
- window.addEventListener("load", function(){ 
- 	
  	function sendData(){
 
-   		var request = new XMLHttpRequest(); 
-   		var formData = new FormData(form);  
-
-   		request.open("POST", "http://ucommbieber.unl.edu/CORS/cors.php", true);
+   		var request = new XMLHttpRequest();
+   		var formData = new FormData(form);
+        var file = document.getElementById("myFile").files[0];
+   		request.open("POST", "/index.php", true);
    		request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-   		
+
    		//Визначаємо, що відповість сервер в разі успішної загрузки даних
 
-   		request.addEventListener("load", function(event){ 
+   		request.addEventListener("load", function(event){
 
    			alert(event.target.responseText);
 
    		});
 
    		//Визначаємо, що відповість сервер в разі  проблем із загрузкою
-   		
+
    		request.addEventListener("error", function(event){
 
             var output = event.target.statusText+"Error";   //потім забрати текст
@@ -36,14 +35,13 @@ function(event){ - функція приймає параметр - об*єкт 
             document.getElementById("forOutput").innerHTML = output;
 
         });
-
         var obj = {
             name:formData.get('name'),
             email:formData.get('email'),
             message:formData.get('message'),
-            file:formData.get('file')
+            file:formData.append('the_file', file)
         };
-        
+
    		request.send(JSON.stringify(obj));
 
  	}
@@ -108,9 +106,9 @@ function(event){ - функція приймає параметр - об*єкт 
 */
 	// Перевірка допустимих розширень
 
-function checkFormat(formPatern) {
+function checkFormat() {
 
-formPatern = document.getElementById("myFile").accept = ".jpeg, .jpg, .gif, .png, .txt" ;
+ document.getElementById("myFile").accept = ".jpeg, .jpg, .gif, .png, .txt" ;
 
 }
 
@@ -148,7 +146,6 @@ if ('files' in filesize) {
     }
 }
 document.getElementById ("sizeId").innerHTML = txt;
-
 }
 */
 
@@ -156,6 +153,7 @@ document.getElementById ("sizeId").innerHTML = txt;
 Функція checkSize() - перевіряє доступні розширення картинок та текстових фалів.
 Потрібно продумати видалення файлів без перегрузки, та відправку.
 */
+
 function checkSize() {
 
 	//Доступ по ідентифікатору до файлу який загружається
@@ -279,3 +277,84 @@ function checkSize() {
 		}
 	}
 }
+
+function  refreshCaptcha() {
+    var a = Math.ceil(Math.random() * 9)+"";
+    var b = Math.ceil(Math.random() * 9)+"";
+    var c = Math.ceil(Math.random() * 9)+"";
+    var d = Math.ceil(Math.random() * 9)+"";
+    var e = Math.ceil(Math.random() * 9)+"";
+
+    var numberCode = a + b + c + d + e;
+    document.getElementById('txtCaptcha').value = numberCode;
+    document.getElementById('txtCaptcha').style.backgroundColor = random_color();
+    var str = document.getElementById('txtCaptcha').value;
+}
+function resolveCaptcha(){
+    var str = document.getElementById('txtCaptcha').value;
+    var str1 = document.getElementById('txtInput').value;
+    if(str == str1){
+        alert('You are human');
+    }else{
+        alert('You are Robot');
+         str1 = document.getElementById('txtInput').value ="";
+    }
+}
+function random_color() {
+    var letters = '0123456789ABCDEF'.split('');
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.round(Math.random() * 15)];
+    }
+    return color;
+}
+//Відправка даних форми ajax
+/*
+$(function(){
+    $('#myForm').on('submit', function(e){
+        e.preventDefault();
+        var $that = $(this),
+            formData = new FormData($that.get(0)); // создаем новый экземпляр объекта и передаем ему нашу форму (*)
+        var r = $.ajax({
+            url: $that.attr('/index.php'),
+            type: $that.attr('POST'),
+            contentType: false, // важно - убираем форматирование данных по умолчанию
+            processData: false, // важно - убираем преобразование строк по умолчанию
+            data: formData,
+            dataType: 'json',
+            success: function(json){
+                if(json){
+                    $that.replaceWith(json);
+                }
+            }
+        });
+        alert(JSON.stringify(r));
+    });
+});
+    */
+
+function addTags(sStartTag, sEndTag) {
+    var bDouble = arguments.length > 1, oMsgInput = document.getElementById('message'),
+        nSelStart = oMsgInput.selectionStart, nSelEnd = oMsgInput.selectionEnd, sOldText = oMsgInput.value;
+    oMsgInput.value = sOldText.substring(0, nSelStart) + (bDouble ? sStartTag + sOldText.substring(nSelStart, nSelEnd)
+        + sEndTag : sStartTag) + sOldText.substring(nSelEnd);
+    oMsgInput.setSelectionRange(bDouble || nSelStart === nSelEnd ? nSelStart + sStartTag.length : nSelStart,
+        (bDouble ? nSelEnd : nSelStart) + sStartTag.length);
+    oMsgInput.focus();
+}
+
+function view(){
+    var txt = document.getElementById('message').value;
+    document.getElementById('view_text').style.border="1px solid green";
+    document.getElementById('view_text').innerHTML = txt;
+}
+
+function exit(){
+    var txt = document.getElementById('message').value;
+    txt = "";
+    document.getElementById('view_text').style.border= "white";
+    document.getElementById('view_text').innerHTML = txt;
+
+}
+
+
