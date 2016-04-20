@@ -289,7 +289,9 @@ function  refreshCaptcha() {
     var numberCode = a + b + c + d + e;
     document.getElementById('txtCaptcha').value = numberCode;
     document.getElementById('txtCaptcha').style.backgroundColor = random_color();
-    var str = document.getElementById('txtCaptcha').value;
+    var str1 = document.getElementById('txtInput').value ="";
+    
+
 }
 function resolveCaptcha(){
     var str = document.getElementById('txtCaptcha').value;
