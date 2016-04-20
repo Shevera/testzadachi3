@@ -1,51 +1,65 @@
 <?php
 
-function checkPostParams(array $postData){
-
-    //Создаем массив с результирующими значениями
-    $result = [];
-
+//Инициализация переменных, проверка на соответствие заданным параметрам
+//возвращаем массив с значениями переменных
+function checkPostParams(){
     //инициализация переменных
-    $userName       = isset($postData[userName])    ? $postData[userName]     : null;
-    $email          = isset($postData[email])       ? $postData[email]        : null;
-    $text           = isset($postData[text])        ? $postData[text]         : null;
-    $captcha        = isset($postData[captcha])     ? $postData[captcha]      : null;
-    $homepage       = isset($postData[homepage])    ? $postData[homepage]     : null;
-    $user_ip        = isset($_SERVER['REMOTE_ADDR'])? $_SERVER['REMOTE_ADDR'] : null;
-    $user_browser   = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null ;
-    $created_data   = date('Y:m:d H:m:s');
+    $name           = isset($_POST['name'])     ? $_POST['name']     : null;
+    $email          = isset($_POST['email'])    ? $_POST['email']    : null;
+    $message        = isset($_POST['message'])  ? $_POST['message']  : null;
+    $myFile         = isset($_FILES['myFile'])  ? $_FILES['myFile']  : null;
 
     //Защита от плохишей
     //обрезаем пробелы,перекодируем в html, экранируем спец символы
-    $userName= trim(htmlspecialchars(mysql_real_escape_string($userName)));
+    $name= trim(htmlspecialchars(mysql_real_escape_string($name)));
     $email= trim(htmlspecialchars(mysql_real_escape_string($email)));
-    $text= trim(htmlspecialchars(mysql_real_escape_string($text)));
-    $homepage= trim(htmlspecialchars(mysql_real_escape_string($homepage)));
+    $message= trim(htmlspecialchars(mysql_real_escape_string($message)));
 
+    //Проверка файла и запись его в переменную
+    if(checkFile($myFile)){
+        $myFile = checkFile($myFile);
+    }else{
+        $myFile = null;
+    }
 
     //Создаем массив с значениями переменных
-    $result = [
-                'username'  => $userName,
+    $result[] = [
+                'name'      => $name,
                 'email'     => $email,
-                'text'      => $text,
-                'homepage'  =>$homepage,
-                'user_ip'   => $user_ip,
-                'user_browser'=>$user_browser,
-                'created_data'=>$created_data
+                'message'   => $message,
+                'myFile'    => $myFile
               ];
 
-    //проверяем капчу и возвращаем массив с данными
-       if(checkCaptcha($captcha)){
-           $result = ['message' => 'all correct in check function',
-                       'error' => true ];
-           return $result;
-    }else{
-           $result =    ['message' => 'error in check function',
-                        'error' => false ];
-           return $result;
-       }
-
+    return $result;
 }
+
+function checkFile($myFile){
+    $CorrectType = ['image/gif','image/jpeg', 'image/pjpeg', 'text/html'];
+    $flag = false;
+
+    //проверка типа файл
+    foreach ($CorrectType as $type){
+        if($type === $myFile[type]){
+            $flag = true;
+            break;
+        }
+    }
+
+    //проверка размера файла не больше 0,5 Mb и корректный тип данных
+    if($myFile[size] > 500000 && $flag !== true){
+        return $myFile=null;
+    }
+    //бинарное копирование файла в переменную
+    $temp=fopen($_POST['tmp_name'],'rb'); //  открыли файл на чтение
+    $myFile = fread($temp,filesize($_POST['name']));//считали файл в переменную
+    fclose($temp);//закрыли файл
+    //защита переменной от опасных символов
+    $myFile=addslashes($myFile);
+
+    return $myFile;
+}
+
+// Array ( [name] => testimage.jpg [type] => image/jpeg [tmp_name] => C:\OpenServer\userdata\temp\php696A.tmp [error] => 0 [size] => 41467 )
 
 //проверяем или капча введена правильно
 function checkCaptcha($captcha){
@@ -56,7 +70,7 @@ function checkCaptcha($captcha){
         return true;
     return false;
 }
-
+/*
 function checkFile(){
 //    name=uploadfile для файл
 // http://php.spb.ru/php/image.html - запись картинок и текста в базу почитать
@@ -118,10 +132,10 @@ function checkFile(){
     echo "<p><b>Размер загруженного файла в байтах: ".$_FILES['uploadfile']['size']."</b></p>";
     echo "<p><b>Временное имя файла: ".$_FILES['uploadfile']['tmp_name']."</b></p>";
 }
+*/
 
 function connect_db(){
     $mysqli = new mysqli('localhost', 'root', '' , 'testzad3');
-
     if($mysqli->connect_error){
         die('Connect Error: '.$mysqli->connect_error);
     }
@@ -151,14 +165,15 @@ function insert_post(array $result){
         $user_ip =  $result[user_ip];
         $user_browser = $result[user_browser];
         $created_data = $result[created_data];
+        $data = $result[data];
 
     }else{
         return false;
     }
 
     $mysqli= connect_db();
-    $sql = "INSERT INTO post( 'id', 'userName',     'email',    'text',   'homepage',     'user_ip',  'user_browser',     'created_data')
-                      VALUES (null, '{$userName}', '{$email}', '{$text}', '{$homepage}', '{$user_ip}', '{$user_browser}', '{$created_data}')";
+    $sql = "INSERT INTO post( 'id', 'userName',     'email',    'text',   'homepage',     'user_ip',  'user_browser',     'created_data', 'data')
+                      VALUES (null, '{$userName}', '{$email}', '{$text}', '{$homepage}', '{$user_ip}', '{$user_browser}', '{$created_data}' , '{$data}')";
     if ($mysqli->query($sql)) {
         echo "New record created successfully";
     } else {
@@ -167,6 +182,7 @@ function insert_post(array $result){
 
 }
 
+
 //получаем количество записей в таблице
 function get_number_rows(){
     $mysqli= connect_db();
@@ -174,8 +190,6 @@ function get_number_rows(){
     $res = $mysqli->query($sql)->num_rows;
     return $res;
 }
-
-
 
 //функция отдать данные сортированные по user name, e-mail, data-create
 //ASC DESC
@@ -187,8 +201,6 @@ function get_content($tableColumn, $sort){
     $page = isset($_GET['page']) ? ($_GET['page']-1) : 0;
     //вичисляем первый оператор для LIMIT
     $start=abs($page*$per_page);
-
-
 
     $mysqli= connect_db();
     $sql = "SELECT * FROM post ORDER BY {$tableColumn} {$sort} LIMIT {$start},{$per_page}";
@@ -206,12 +218,6 @@ function get_content($tableColumn, $sort){
             $row = $res->fetch_all(MYSQLI_ASSOC);
         }
 
-        // дальше выводим ссылки на страницы:
-
-
-
-       // echo 'Запрос не прошел';
-
     return [
         'row' => $row,
         'per_page'=> $per_page,
@@ -220,44 +226,3 @@ function get_content($tableColumn, $sort){
         'page'=>$page
         ];
 }
-
-
-//Сообщения должны выводится в виде таблицы,
-//с возможностью сортировки по следующим
-//полям: User Name, e-mail, и дата добавления
-
-
-//Гостевая книга предоставляет возможность пользователям сайта оставлять сообщения на сайте.
-// Все данные введенные пользователем сохраняются в БД MySQL,
-// так же в базе данных сохраняются данные о IP пользователя и его браузере.
-//Форма добавления записи в гостевую книгу должна иметь следующие поля:
-
-//User Name (цифры и буквы латинского алфавита) – обязательное поле
-//E-mail (формат email) – обязательное поле
-//Homepage (формат url) – необязательное поле
-//CAPTCHA (цифры и буквы латинского алфавита) – изображение и обязательное
-// поле (http://ru.wikipedia.org/wiki/CAPTCHA)
-//Text (непосредственно сам текст сообщения, HTML тэги недопустимы) – обязательное поле
-
-$json = '{"userName":"Andre",
-            "email":"screppi@gmail.com",
-            "homepage":"http://workhard.com",
-            "captcha":true,
-            "text":";lsdkc;lk;dlkf;sldkfs;ld213413414:"}';
-
-//--------------------------------------------------------------------------------------------------
-//Про вордпрес
-// паганіція форма зворотнього звязку, контактні форми
-
-// сторінка (товар - ціна) при клікові на кожен товарі переход на сторінку з товаром.
-// а адмінці додавати - фотки ціна опис
-// редагування товару
-// стандартними функціями добавляти можна поля, але не варто.
-
-// раслітератор, мультиязичність, слайдери, ротатори
-// бред крампс
-// плагін кешированіє
-// модуль - контакт фром сім
-
-// зазвичай пишуться сайт візитка (5 сторінок) і кілька оголошень
-//--------------------------------------------------------------------------------------------------

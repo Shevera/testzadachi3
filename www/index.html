@@ -6,9 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<script src="index.js"  type="text/javascript"></script>
     <script src="jquery.js"  type="text/javascript"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 </head>
 <body>
-	<form class="contact_form" action="#" method="post"
+	<form class="contact_form" action="../index.php" method="post"
           name="contact_form" enctype="multipart/form-data" id="myForm">
     <ul>
         <li>
@@ -29,7 +30,7 @@
         </li>
         <li>
             <label for="myFile">File Load:</label>
-            <input id="myFile" type="file" onchange="return checkSize()" onclick="checkFormat()"/>
+            <input id="myFile" name="myFile" type="file" onchange="return checkSize()" onclick="checkFormat()"/>
             <p class="toFile">Available format: txt, jpeg, png, gif.</p>
             <p id="sizeId"></p>
             <p id="forOutputfile"></p>

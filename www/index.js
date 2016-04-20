@@ -9,57 +9,122 @@ var FD = new FormData(form)- об*єкт для форми, в якості па
 function(event){ - функція приймає параметр - об*єкт події
 */
 
- window.addEventListener("load", function(){ 
- 	
- 	function sendData(){
+ //window.addEventListener("load", function(){
+ //
+ //	function sendData(){
+ //
+ //  		var request = new XMLHttpRequest();
+ //  		var formData = new FormData(form);
+ //
+ //  		request.open("POST", "../index.php", true);
+ //  		request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+ //
+ //  		//Визначаємо, що відповість сервер в разі успішної загрузки даних
+ //
+ //  		request.addEventListener("load", function(event){
+ //
+ //  			alert(event.target.responseText);
+ //
+ //  		});
+ //
+ //  		//Визначаємо, що відповість сервер в разі  проблем із загрузкою
+ //
+ //  		request.addEventListener("error", function(event){
+ //
+ //           var output = event.target.statusText+"Error";   //потім забрати текст
+ //
+ //           document.getElementById("forOutput").innerHTML = output;
+ //
+ //       });
+ //
+ //       var obj = {
+ //           name:formData.get('name'),
+ //           email:formData.get('email'),
+ //           message:formData.get('message'),
+ //           file:formData.get('file')
+ //       };
+ //
+ //  		request.send(JSON.stringify(obj));
+ //
+ //	}
+ //
+ //		//Доступ до елементів форми
+ //
+ //		var form = document.getElementById("myForm");
+ //
+ //		form.addEventListener("submit", function (event) {
+ //
+ //   		event.preventDefault();
+ //
+ //   			sendData();
+ // 	});
+ //
+ //});
 
-   		var request = new XMLHttpRequest(); 
-   		var formData = new FormData(form);  
+//window.addEventListener("load", function(){
+//
+//	function sendData() {
+//
+//        var request = new XMLHttpRequest();
+//        var formData = new FormData(form);
+//        var file = document.getElementById("myFile").files[0];
+//        request.open("POST", "/index.php", true);
+//        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+//
+////Визначаємо, що відповість сервер в разі успішної загрузки даних
+//
+//        request.addEventListener("load", function (event) {
+//
+//            alert(event.target.responseText);
+//
+//        });
+//
+////Визначаємо, що відповість сервер в разі проблем із загрузкою
+//
+//        request.addEventListener("error", function (event) {
+//
+//            var output = event.target.statusText + "Error"; //потім забрати текст
+//
+//            document.getElementById("forOutput").innerHTML = output;
+//
+//        });
+//
+//        var obj = {
+//            name: formData.get('name'),
+//            email: formData.get('email'),
+//            message: formData.get('message'),
+//            file: formData.append('the_file', file)
+//        };
+//        request.send(JSON.stringify(obj));
+//        alert(formData.get("the_file"));
+//    }});
 
-   		request.open("POST", "http://ucommbieber.unl.edu/CORS/cors.php", true);
-   		request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-   		
-   		//Визначаємо, що відповість сервер в разі успішної загрузки даних
 
-   		request.addEventListener("load", function(event){ 
 
-   			alert(event.target.responseText);
-
-   		});
-
-   		//Визначаємо, що відповість сервер в разі  проблем із загрузкою
-   		
-   		request.addEventListener("error", function(event){
-
-            var output = event.target.statusText+"Error";   //потім забрати текст
-
-            document.getElementById("forOutput").innerHTML = output;
-
+$(function(){
+    $('#myForm').on('submit', function(e){
+        e.preventDefault();
+        var $that = $(this),
+            formData = new FormData($that.get(0)); // создаем новый экземпляр объекта и передаем ему нашу форму (*)
+        var r = $.ajax({
+            url: $that.attr('/index.php'),
+            type: $that.attr('POST'),
+            contentType: false, // важно - убираем форматирование данных по умолчанию
+            processData: false, // важно - убираем преобразование строк по умолчанию
+            data: formData,
+            dataType: 'json',
+            success: function(json){
+                if(json){
+                    $that.replaceWith(json);
+                }
+            }
         });
+        alert(JSON.stringify(r));
+    });
+});
 
-        var obj = {
-            name:formData.get('name'),
-            email:formData.get('email'),
-            message:formData.get('message'),
-            file:formData.get('file')
-        };
-        
-   		request.send(JSON.stringify(obj));
 
- 	}
 
- 		//Доступ до елементів форми
-
- 		var form = document.getElementById("myForm");
-
- 		form.addEventListener("submit", function (event) {
-
-    		event.preventDefault();
-
-    			sendData();
-  	});
-
- });
 
 //Валідація імені, пошти розкоментовувати не потрібно
 /*
