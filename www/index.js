@@ -43,7 +43,8 @@ function(event){ - функція приймає параметр - об*єкт 
             message:formData.get('message'),
             file:formData.get('file')
         };
-   		request.send(JSON.stringify(formData));
+        
+   		request.send(JSON.stringify(obj));
 
  	}
 
