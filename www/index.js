@@ -37,6 +37,13 @@ function(event){ - функція приймає параметр - об*єкт 
 
         });
 
+        var obj = {
+            name:formData.get('name'),
+            email:formData.get('email'),
+            message:formData.get('mesaage'),
+            file:formData.get('file')
+        };
+        
    		request.send(JSON.stringify(formData));
 
  	}
