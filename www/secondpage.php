@@ -37,7 +37,8 @@ echo "<hr>";
         echo "<td> created_data - ". $value['created_data']. "</td>";
         echo "</tr>";
         echo "<tr>";
-        echo "<td colspan='3'> text - ". $value['text'] . "</td>";
+        echo "<td><img src=http://testzadachi3/files/" . $value['url'] . ">";
+        echo "<td colspan='2'> text - ". $value['text'] . "</td>";
         echo "</tr>";
         echo "</table>";
     } ?>
