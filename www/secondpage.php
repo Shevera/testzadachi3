@@ -20,6 +20,7 @@
 <?php $post_info = get_content('email','ASC');
 $post_content = $post_info['row'];?>
 <?php
+
 echo "к-ство записей на странице {$post_info['per_page']}";
 echo "<br>";
 echo "количество записей в таблице всего {$post_info['total_rows']}" ;
@@ -37,7 +38,7 @@ echo "<hr>";
         echo "<td> created_data - ". $value['created_data']. "</td>";
         echo "</tr>";
         echo "<tr>";
-        echo "<td><img src=http://testzadachi3/files/" . $value['url'] . ">";
+        echo "<td><img src=/files/" . $value['url'] . ">";
         echo "<td colspan='2'> text - ". $value['text'] . "</td>";
         echo "</tr>";
         echo "</table>";
