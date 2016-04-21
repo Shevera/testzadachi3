@@ -42,7 +42,7 @@ function(event){ - функція приймає параметр - об*єкт 
             file:formData.append('the_file', file)
         };
 
-        alert(JSON.stringify(obj));
+        
    		request.send(JSON.stringify(obj));
 
  	}
