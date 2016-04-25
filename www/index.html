@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Gues Book</title>
+	<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="../css/index.css">
+	<script src="../jquery/jquery.js" type="text/javascript"></script>
+	<script src="../bower_components/jquery-json/dist/jquery.json.min.js" type="text/javascript"></script>
+	<script src="../js/index.js" type="text/javascript"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12">
+			<p>Guest Book</p>
+				<form name="form_users" id="usersForm" action="#" method="POST" onsubmit="validateForm()">
+						<div class="form-group">
+    					<label for="nameId">Name</label>
+    						<input name="name" type="text" class="form-control" id="nameId">
+  							</div>
+                            <div id="errorName"></div>
+					<div class="form-group">
+    					<label for="emailId">Email address</label>
+    						<input name="email" type="email" class="form-control" id="emailId">
+  							</div>
+                            <div id="errorEmail"></div>
+  					<div class="form-group">
+    					<label for="fileId">File input</label>
+    						<input type="file" id="fileId" onchange="checkFormat()">
+  							</div>
+                            <div id="errorFile"></div>
+                    <button type="button" class="btn  btn-xs" id="cleanerBtn" onclick="cleaner()">Clean</button>
+  							<div class="form-group">
+    					<label for="messageId">Message input</label>
+    						<textarea class="form-control" name="message"  id="messageId" rows="3">
+    						</textarea>
+  							</div>
+                            <div id="errorMessage"></div>
+                    <div class="form-group">
+                        <label for="inputCaptcha">Captcha</label>
+                        <input type="text" class="form-control" id="inputCaptcha" placeholder="23456" disabled="disabled">
+                    </div>
+                    <button type="button" class="btn btn-primary btn-xs" onclick="refreshCaptcha()">Refresh captcha</button>
+                    <div class="form-group">
+                        <label for="resolveCaptcha"></label>
+                        <input type="text" class="form-control" id="resolveCaptcha" placeholder="Resolve capthca">
+                        <div id="errorCaptcha"></div>
+                    </div>
+  					<button type="submit" class="btn btn-primary" onclick="Captcha()">Submit</button>
+				</form>
+			</div>
+		</div><!-- row end -->
+	</div><!-- container end -->
+</body>
+</html>
