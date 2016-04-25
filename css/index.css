@@ -1,0 +1,48 @@
+.container{
+	width: 500px;
+	margin-top: 40px;
+    background-color: #c1e2b3;
+}
+label{
+    color: blue;
+}
+p{
+    color: blue;
+    font-size: large;
+}
+#errorName{
+    margin-top: -13px;
+    border-radius: 2px;
+    color: white;
+}
+#errorEmail{
+    margin-top: -13px;
+    border-radius: 2px;
+    color: white;
+}
+#errorMessage{
+    margin-top: -8px;
+    border-radius: 2px;
+    color: white;
+
+}
+#errorFile{
+    margin-top: -13px;
+    color: white;
+    border-radius: 2px;
+    margin-left: 5px;
+}
+#errorCaptcha{
+    margin-top: 5px;
+    color: white;
+    border-radius: 2px;
+    margin-left: 5px;
+
+}
+.btn-primary{
+    margin-bottom: 5px;
+}
+#cleanerBtn{
+    margin-left: 5px;
+    margin-top: 4px;
+}
