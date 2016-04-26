@@ -332,5 +332,31 @@ function cleaner(){
         document.getElementById('fileId').value = "";
 }
 
+/* Функція, змінює колір полів, якщо вони пусті змінює на червоний,
+ * якщо заповнені на зелений */
+
+
+
+function changeColorField(){
+    var formData = docyment.forms.form_users;
+    var els = formData.elements;
+    var isEmpty = false;
+    for (var i = 0; i < els.lengthl; i++){
+        if (els[i].type == "text")
+            if (els[i] == ""){
+                els[i].style.borderColor = "red";
+                isEmpty = true;
+            }else{
+                els[i].style.borderColor = "green";
+            }
+        if (isEmpty){
+            alert("Fill field");
+        }else {
+            formData.submit();
+        }
+    }
+}
+
+
 
 
