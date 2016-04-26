@@ -29,28 +29,54 @@
 * 2. Звичайним способом у вигляді об*єкта або масиву, через http request;
 * */
 
-$( document ).ready(function() {
-   $(function(){
-	$("#usersForm").submit(function(){
-		var formData = {
-			"name":$("#nameId").val(),
-			"email":$("#emailId").val(),
-			"file":$("#fileId").val(),
-			"message":$("#messageId").val()
-		};
-		$.ajax({
-			url:"../index.php",
-			type:"POST",
-			dataType:'json',
-			data: "jsonData =" + $.toJSON(formData),
-			success:function(result){
-                document.getElementById('answerServer').innerHTML  = result;
-			}
-		});
+//$( document ).ready(function() {
+//   $(function(){
+//
+//	$("#usersForm").submit(function(){
+//
+//        //var formData = {
+//		//	"name":$("#nameId").val(),
+//		//	"email":$("#emailId").val(),
+//		//	"file":$("#fileId").val(),
+//         //   "message":$("#messageId").val()
+//		//};
+//
+//		$.ajax({
+//			url:"../index.php",
+//			type:"POST",
+//			//dataType:'json',
+//			//data: "jsonData=" + $.toJSON(formData),
+//            processData: false,
+//            contentType: false,
+//            data: formData,
+//			success:function(result){
+//                document.getElementById('answerServer').innerHTML  = result;
+//			}
+//		});
+//
+//		return false;
+//	});
+//});
+//});
 
-		return false;
-	});
-});
+$("form#usersForm").submit(function(){
+
+    var formData = new FormData($(this)[0]);
+
+    $.ajax({
+        url: "../index.php",
+        type: 'POST',
+        data: formData,
+        async: false,
+        success: function (data) {
+           alert(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+
+    return false;
 });
 
 /*Функція забезпечує валідацію наступних полів: ім*я, емейл, повідомлення.
@@ -327,6 +353,7 @@ function random_color() {
 }
 
 /*Функція очищує поле завантаження фафлів*/
+
 function cleaner(){
         document.getElementById("errorFile").innerHTML = "";
         document.getElementById('errorFile').style.backgroundColor = "#c1e2b3";
