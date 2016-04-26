@@ -58,64 +58,132 @@ $( document ).ready(function() {
 
 function validateForm() {
 
-    var name = document.forms["usersForm"]["name"].value;
-    var message = document.forms["usersForm"]["message"].value;
-    var email = document.forms["usersForm"]["email"].value;
+    //var name = document.forms["usersForm"]["name"].value;
+    //var message = document.forms["usersForm"]["message"].value;
+    //var email = document.forms["usersForm"]["email"].value;
+    //
+    //var error = "";
+    //
+    //var nameRegExp = /^[a-zA-Z0-9]*[a-zA-Z]+[a-zA-Z0-9]*$/i;
+    //
+    //var emailRegExp = /([a-z]+)@([a-z]+)\.([a-z]{2,})/i;
+    //
+    //if (name == null || name == "" || nameRegExp.test(name)==false) {
+    //
+    //    document.getElementById('errorName').style.backgroundColor = "red";
+    //
+    //    error = "Please enter valid name Bob32";
+    //
+    //    document.getElementById("errorName").innerHTML = error;
+    //
+    //    document.getElementById('nameId').onclick = function(event){
+    //
+    //        document.getElementById("errorName").innerHTML = "";
+    //
+    //        document.getElementById('errorName').style.backgroundColor = "#c1e2b3";
+    //    };
+    //
+    //    return false;
+    //
+    //}if(email == null || email == "" || emailRegExp.test(email) == false){
+    //
+    //    document.getElementById('errorEmail').style.backgroundColor = "red";
+    //
+    //    error = "Please enter valid email address";
+    //
+    //    document.getElementById("errorEmail").innerHTML = error;
+    //
+    //    document.getElementById('emailId').onclick = function(event){
+    //
+    //        document.getElementById("errorEmail").innerHTML = "";
+    //
+    //        document.getElementById('errorEmail').style.backgroundColor = "#c1e2b3";
+    //    };
+    //    return false;
+    //
+    //}else if(message == false){
+    //
+    //    document.getElementById('errorMessage').style.backgroundColor = "red";
+    //
+    //     error = "Please enter some text";
+    //
+    //    document.getElementById("errorMessage").innerHTML = error;
+    //
+    //    document.getElementById('messageId').onclick = function(event){
+    //
+    //        document.getElementById("errorMessage").innerHTML = "";
+    //
+    //        document.getElementById('errorMessage').style.backgroundColor = "#c1e2b3";
+    //    };
+    //    return false;
+    //}
 
-    var error = "";
-
+    var formData = document.forms.usersForm;
+    var els = formData.elements;
+    var isEmpty = false;
+    var errorMessage ="";
     var nameRegExp = /^[a-zA-Z0-9]*[a-zA-Z]+[a-zA-Z0-9]*$/i;
-
+    var nameError = document.getElementById('errorName');
+    var idName = document.getElementById('nameId');
     var emailRegExp = /([a-z]+)@([a-z]+)\.([a-z]{2,})/i;
+    var emailError = document.getElementById('errorEmail');
+    var idEmail = document.getElementById('emailId');
+    var messageError = document.getElementById('errorMessage');
+    var idMessage = document.getElementById('messageId');
+    for (var i = 0; i < els.length; i++){
+        if (els[i].name == "name"){
+            if(els[i] == "" || nameRegExp.test(els[i].value) == false){
+                els[i].style.borderColor = "red";
+                nameError.style.backgroundColor = "red";
+                errorMessage = "Please enter valid name Bob32";
+                nameError.innerHTML = errorMessage;
+                isEmpty = true;
+                idName.onclick = function(event){
+                    nameError.innerHTML = "";
+                    nameError.style.backgroundColor = "#c1e2b3";
+                };
+            }else{
+                    els[i].style.borderColor = "green";
+                    nameError.style.backgroundColor = "green";
+                    errorMessage = "Valid name";
+                    nameError.innerHTML = errorMessage;
+            }
+        }else if(els[i].name == "email"){
+            if(els[i] == "" || emailRegExp.test(els[i].value) == false){
+                els[i].style.borderColor = "red";
+                isEmpty = true;
+                emailError.style.backgroundColor = "red";
+                errorMessage = "Please enter valid email address";
+                emailError.innerHTML = errorMessage;
+                idEmail.onclick = function(event){
+                    emailError.innerHTML = "";
+                    emailError.style.backgroundColor = "#c1e2b3";
+                };
+            }else{
+                els[i].style.borderColor = "green";
+                emailError.style.backgroundColor = "green";
+                errorMessage = "Valid email";
+                emailError.innerHTML = errorMessage;
+            }
 
-    if (name == null || name == "" || nameRegExp.test(name)==false) {
-
-        document.getElementById('errorName').style.backgroundColor = "red";
-
-        error = "Please enter valid name Bob32";
-
-        document.getElementById("errorName").innerHTML = error;
-
-        document.getElementById('nameId').onclick = function(event){
-
-            document.getElementById("errorName").innerHTML = "";
-
-            document.getElementById('errorName').style.backgroundColor = "#c1e2b3";
-        };
-
-        return false;
-
-    }if(email == null || email == "" || emailRegExp.test(email) == false){
-
-        document.getElementById('errorEmail').style.backgroundColor = "red";
-
-        error = "Please enter valid email address";
-
-        document.getElementById("errorEmail").innerHTML = error;
-
-        document.getElementById('emailId').onclick = function(event){
-
-            document.getElementById("errorEmail").innerHTML = "";
-
-            document.getElementById('errorEmail').style.backgroundColor = "#c1e2b3";
-        };
-        return false;
-
-    }else if(message == false){
-
-        document.getElementById('errorMessage').style.backgroundColor = "red";
-
-         error = "Please enter some text";
-
-        document.getElementById("errorMessage").innerHTML = error;
-
-        document.getElementById('messageId').onclick = function(event){
-
-            document.getElementById("errorMessage").innerHTML = "";
-
-            document.getElementById('errorMessage').style.backgroundColor = "#c1e2b3";
-        };
-        return false;
+        }else if(els[i].name == "message"){
+            if(els[i].value == false){
+                els[i].style.borderColor = "red";
+                isEmpty = true;
+                messageError.style.backgroundColor = "red";
+                errorMessage ="Please enter some text";
+                messageError.innerHTML = errorMessage;
+                idMessage.onclick = function(event){
+                    messageError.innerHTML = "";
+                    messageError.style.backgroundColor = "#c1e2b3";
+                };
+            }else {
+                els[i].style.borderColor = "green";
+                messageError.style.backgroundColor = "green";
+                errorMessage = "Valid message";
+                messageError.innerHTML = errorMessage;
+            }
+        }
     }
 }
 
