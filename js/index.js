@@ -44,7 +44,7 @@ $( document ).ready(function() {
 			dataType:'json',
 			data: "jsonData =" + $.toJSON(formData),
 			success:function(result){
-				alert(res);
+                document.getElementById('answerServer').innerHTML  = result;
 			}
 		});
 
@@ -81,6 +81,7 @@ function validateForm() {
             document.getElementById("errorName").innerHTML = "";
 
             document.getElementById('errorName').style.backgroundColor = "#c1e2b3";
+
         };
 
         return false;
