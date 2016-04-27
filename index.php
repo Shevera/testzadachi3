@@ -1,6 +1,9 @@
 <?php
 
-print_r($_POST);
-print_r($_FILES);
+include_once "workDB.php";
+
+$result = checkPostParams();
+
+insert_post($result);
 
 ?>
