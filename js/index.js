@@ -32,7 +32,16 @@
 $( document ).ready(function() {
    $(function(){
 	$("#usersForm").submit(function(){
-		
+        var $that = $(this);
+        var formData = new FormData($that.get(0));
+        var file = document.getElementById("fileId").files[0];
+        var obj = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            message: formData.get('message'),
+            file: formData.append('the_file', file)
+        };
+        alert(obj);
 		$.ajax({
 			url:"../index.php",
 			type:"POST",
