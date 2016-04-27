@@ -41,17 +41,17 @@ $( document ).ready(function() {
             message: formData.get('message'),
             file: formData.append('the_file', file)
         };
-        alert(obj);
 		$.ajax({
 			url:"../index.php",
 			type:"POST",
 			dataType:'json',
-			data: "jsonData =" + $.toJSON(formData),
+			data: "jsonData =" + $.toJSON(obj),
 			success:function(result){
                 document.getElementById('answerServer').innerHTML  = result;
 			}
 		});
-
+        alert(formData.get('the_file'));
+        alert($.toJSON(obj));
 		return false;
 	});
 });
