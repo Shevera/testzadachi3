@@ -32,12 +32,7 @@
 $( document ).ready(function() {
    $(function(){
 	$("#usersForm").submit(function(){
-		var formData = {
-			"name":$("#nameId").val(),
-			"email":$("#emailId").val(),
-			"file":$("#fileId").val(),
-			"message":$("#messageId").val()
-		};
+		
 		$.ajax({
 			url:"../index.php",
 			type:"POST",
